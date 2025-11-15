@@ -15,10 +15,10 @@ jobs:
             build_cmd: pyinstaller --onefile hello.py
           - os: macos-13  # Intel Mac
             output: hello.app
-            build_cmd: pyinstaller --onefile hello.py
+            build_cmd: pyinstaller --onefile --windowed hello.py && cd dist && zip -r hello-intel.zip hello.app
           - os: macos-latest  # Apple Silicon
             output: hello.app
-            build_cmd: pyinstaller --onefile hello.py
+            build_cmd: pyinstaller --onefile --windowed hello.py && cd dist && zip -r hello-arm.zip hello.app
           - os: ubuntu-latest
             output: hello
             build_cmd: pyinstaller --onefile hello.py
@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}-executable
-          path: dist/${{ matrix.output }}
+          path: dist/*.zip
