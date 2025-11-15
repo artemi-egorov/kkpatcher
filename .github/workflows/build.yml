@@ -12,10 +12,16 @@ jobs:
         include:
           - os: windows-latest
             output: hello.exe
-          - os: macos-latest
-            output: hello
+            build_cmd: pyinstaller --onefile hello.py
+          - os: macos-13  # Intel Mac
+            output: hello.app
+            build_cmd: pyinstaller --onefile --windowed hello.py
+          - os: macos-latest  # Apple Silicon
+            output: hello.app
+            build_cmd: pyinstaller --onefile --windowed hello.py
           - os: ubuntu-latest
             output: hello
+            build_cmd: pyinstaller --onefile hello.py
     
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +34,7 @@ jobs:
         run: pip install pyinstaller
       
       - name: Build executable
-        run: pyinstaller --onefile hello.py
+        run: ${{ matrix.build_cmd }}
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
