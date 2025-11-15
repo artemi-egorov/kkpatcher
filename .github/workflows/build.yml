@@ -15,10 +15,10 @@ jobs:
             build_cmd: pyinstaller --onefile hello.py
           - os: macos-13  # Intel Mac
             output: hello.app
-            build_cmd: pyinstaller --onefile --windowed hello.py
+            build_cmd: pyinstaller --onefile hello.py
           - os: macos-latest  # Apple Silicon
             output: hello.app
-            build_cmd: pyinstaller --onefile --windowed hello.py
+            build_cmd: pyinstaller --onefile hello.py
           - os: ubuntu-latest
             output: hello
             build_cmd: pyinstaller --onefile hello.py
