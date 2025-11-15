@@ -1,0 +1,37 @@
+name: Build Executables
+   on:
+     push:
+       branches: [ main ]
+     workflow_dispatch:
+   
+   jobs:
+     build:
+       runs-on: ${{ matrix.os }}
+       strategy:
+         matrix:
+           include:
+             - os: windows-latest
+               output: hello.exe
+             - os: macos-latest
+               output: hello
+             - os: ubuntu-latest
+               output: hello
+       
+       steps:
+         - uses: actions/checkout@v4
+         
+         - uses: actions/setup-python@v4
+           with:
+             python-version: '3.11'
+         
+         - name: Install PyInstaller
+           run: pip install pyinstaller
+         
+         - name: Build executable
+           run: pyinstaller --onefile hello.py
+         
+         - name: Upload artifact
+           uses: actions/upload-artifact@v4
+           with:
+             name: ${{ matrix.os }}-executable
+             path: dist/${{ matrix.output }}
